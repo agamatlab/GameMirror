@@ -2,10 +2,16 @@ using UnityEngine;
 
 public class BulletBehaviour : MonoBehaviour
 {
-    public Bullet bullet; // Instance of the Bullet class
+    private Bullet bullet; // Instance of the Bullet class
     private Rigidbody2D rb; // Rigidbody reference
     private Camera mainCamera;
+    private BulletParams defaultBulletParams;
+    private Transform pivot;
 
+    public void Initialize(Bullet bullet)
+    {
+        this.bullet = bullet;
+    }
 
     void Start()
     {
@@ -13,26 +19,38 @@ public class BulletBehaviour : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         mainCamera = Camera.main;
 
-        // Initialize bullet properties
-        bullet = new Bullet(Vector3.up, ricochetCount: 3, destroyOnCollision: true, speed: 7, mass: 1f, size: 0.5f, homing: false, homingTarget: null, damage: 10f);
-
         // Apply initial velocity
-        rb.mass = bullet.mass;
-        rb.velocity = bullet.initVelocityVector * bullet.speed;
-        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        // rb.mass = bullet.bulletParams.mass;
+        // rb.velocity = bullet.bulletParams.initVelocityVector * bullet.bulletParams.speed;
+        // rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
+        if (bullet.bulletParams.homing)
+        {
+            pivot = transform.GetChild(0);
+            pivot.gameObject.SetActive(true);
+        }
+        else
+        {
+            pivot = transform.GetChild(0);
+            pivot.gameObject.SetActive(false);
+        }
     }
 
     void FixedUpdate()
     {
-        // Update homing logic in FixedUpdate for physics consistency
-        if (bullet.homing && bullet.homingTarget != null)
+        Debug.Log("Bullets speed : " + rb.velocity.magnitude);
+        if (bullet.bulletParams.homing)
         {
-            Vector3? acceleration = bullet.GetAcceleration(transform.position);
-            if (acceleration.HasValue)
-            {
-                rb.AddForce(acceleration.Value * rb.mass, ForceMode2D.Force);
-            }
+            // Change cone rotation angle
+            float pivotRotationAngle = Mathf.Atan2(rb.velocity.y, rb.velocity.x);
+            pivot.rotation = Quaternion.Euler(0, 0, pivotRotationAngle * Mathf.Rad2Deg);
+        }
+
+        // Update homing logic in FixedUpdate for physics consistency
+        if (bullet.bulletParams.homing && bullet.bulletParams.homingTarget != null)
+        {
+            Vector3 acceleration = bullet.GetAcceleration(transform.position);
+            rb.AddForce(acceleration * rb.mass, ForceMode2D.Force);
         }
 
         // Check if outside camera bounds
@@ -49,7 +67,6 @@ public class BulletBehaviour : MonoBehaviour
     {
         Debug.Log("OnCollisionEnter");
 
-
         if (collision.gameObject.CompareTag("Player"))
         {
             DamagePlayer(collision.gameObject);
@@ -61,33 +78,33 @@ public class BulletBehaviour : MonoBehaviour
         {
             Debug.Log("Touching grass");
 
-            if (bullet.ricochetCount > 0)
+            if (bullet.bulletParams.ricochetCount > 0)
             {
-                Ricochet(collision.contacts[0].normal, rb.velocity);
-                bullet.ricochetCount--;
+                //Ricochet(collision.contacts[0].normal, rb.velocity / 1.5f);
+                bullet.bulletParams.ricochetCount--;
             }
-            else if (bullet.destroyOnCollision)
+            else if (bullet.bulletParams.destroyOnCollision)
             {
                 Destroy(gameObject);
             }
         }
     }
-    private void Ricochet(Vector2 collisionNormal, Vector2 LastVelocity)
+
+    private void Ricochet(Vector2 collisionNormal, Vector2 lastVelocity)
     {
-        /*// Calculate reflected direction
-        Vector2 reflectedDirection = Vector2.Reflect(LastVelocity, collisionNormal);
+        // Calculate reflected direction
+        Vector2 reflectedDirection = Vector2.Reflect(lastVelocity, collisionNormal);
 
         // Set the Rigidbody2D velocity to the reflected direction scaled by speed
-        rb.velocity = reflectedDirection * bullet.speed;
+        rb.velocity = reflectedDirection * bullet.bulletParams.speed;
 
         // Debug information
-        Debug.Log("Reflected direction: " + reflectedDirection + " Collision Normal: " + collisionNormal + " Speed: " + rb.velocity.magnitude);*/
+        Debug.Log("Reflected direction: " + reflectedDirection + " Collision Normal: " + collisionNormal + " Speed: " + rb.velocity.magnitude);
     }
-
 
     private void DamagePlayer(GameObject player)
     {
-        Debug.Log($"Damaged player: {player.name} with {bullet.damage} damage.");
+        Debug.Log($"Damaged player: {player.name} with {bullet.bulletParams.damage} damage.");
     }
 
     private bool IsVisibleFromCamera()

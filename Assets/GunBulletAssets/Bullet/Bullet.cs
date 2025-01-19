@@ -1,41 +1,21 @@
 using UnityEngine;
 
-public class Bullet
+public class Bullet : MonoBehaviour
 {
-    // Basic bullet properties
-    public int ricochetCount;
-    public bool destroyOnCollision = true;
-    public float speed;
-    public float mass;
-    public float size;
-    public float damage;
+    public BulletParams bulletParams;
 
-    public bool homing;
-    public GameObject homingTarget;
-    
-    // Initial values
-    public Vector3 initVelocityVector;
-
-    public Bullet(Vector3 initVelocityVector, int ricochetCount, bool destroyOnCollision, float speed, float mass, float size, bool homing, GameObject homingTarget, float damage)
+    public Bullet(BulletParams bulletParams)
     {
-        this.initVelocityVector = initVelocityVector;
-        this.ricochetCount = ricochetCount;
-        this.destroyOnCollision = destroyOnCollision;
-        this.speed = speed;
-        this.mass = mass;
-        this.size = size;
-        this.homing = homing;
-        this.homingTarget = homingTarget;
-        this.damage = damage;
+        this.bulletParams = bulletParams;
     }
 
-    // Function to calculate acceleration (returns nothing if no homing)
+    // Function to calculate acceleration (returns zero vector if no homing)
     public Vector3 GetAcceleration(Vector3 currentPosition)
     {
-        if (homing && homingTarget != null)
+        if (bulletParams.homing && bulletParams.homingTarget != null)
         {
-            Vector3 directionToTarget = (homingTarget.transform.position - currentPosition).normalized;
-            float accelerationMagnitude = speed / mass; // Example calculation
+            Vector3 directionToTarget = (bulletParams.homingTarget.transform.position - currentPosition).normalized;
+            float accelerationMagnitude = bulletParams.speed / bulletParams.mass; // Example calculation
             return directionToTarget * accelerationMagnitude;
         }
         return Vector3.zero;
@@ -44,6 +24,7 @@ public class Bullet
     // Function to update bullet properties (e.g., size, speed)
     public void UpdateBullet()
     {
-        // Placeholder for updating bullet properties (e.g., dynamically change size or speed)
+        // Placeholder for updating bullet properties dynamically (if needed)
     }
 }
+    
