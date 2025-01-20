@@ -17,12 +17,12 @@ public static class CardUtility
         if (File.Exists(path))
         {
             // Read the JSON from the file
-            string json = File.ReadAllText(path);
-            Debug.Log("Text recovered " + json);
+            //string json = File.ReadAllText(path);
+            //Debug.Log("Text recovered " + json);
 
-            // Parse the JSON string into the CardCollection object
-            cardCollection. JsonUtility.FromJson<CardCollection>(json);
-            Debug.Log("File exist, trying to output it's size");
+            //// Parse the JSON string into the CardCollection object
+            //cardCollection. JsonUtility.FromJson<CardCollection>(json);
+            //Debug.Log("File exist, trying to output it's size");
         }
         else
         {
