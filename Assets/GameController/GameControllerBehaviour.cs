@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null)
         {
+            GunPropertiesP1.setDefault(); // Set default values for player 1
+            GunPropertiesP2.setDefault(); // Set default values for player 2
+
             Instance = this; // Set the singleton instance
             DontDestroyOnLoad(gameObject); // Prevent this object from being destroyed
         }

@@ -7,7 +7,7 @@ using System.IO;
 
 public class CardBehaviour : MonoBehaviour
 {
-    public bool RightCard; // 0 if Left
+    public bool LeftCard; // 0 if Left
     public Vector2 InitialPosition;
     CardClass card;
     public float RotationFactor = 0.5f;
@@ -71,9 +71,12 @@ public class CardBehaviour : MonoBehaviour
     {
         // When the mouse button is released, stop dragging
         isDragging = false;
+        CardWasPicked(transform.position);
+
     }
     void Update()
     {
+
         RotateAsGoes(transform.position);
         if (!isDragging)
         {
@@ -81,19 +84,20 @@ public class CardBehaviour : MonoBehaviour
             transform.position = Vector2.Lerp(transform.position, InitialPosition, returnSpeed * Time.deltaTime);
         }
     }
-    void CardWasPicked()
+    void CardWasPicked(Vector2 cur_position)
     {
-        Debug.Log("Card was picked");
-        Destroy(gameObject);
+        float x = Camera.main.WorldToViewportPoint(InitialPosition - cur_position).x;
+        if ((LeftCard && x > 0.7f) || (!LeftCard && x < 0.2f))
+        {
+            Debug.Log("Card was picked");
+            Destroy(gameObject);
+        };
     }
     void RotateAsGoes(Vector2 cur_position)
     {
         float x = Camera.main.WorldToViewportPoint(InitialPosition - cur_position).x;
-        if ( ( RightCard && x >= 0.95 ) || (!RightCard && x <= 0.5))
-        {
-            CardWasPicked();
-        }
-        if ((RightCard && x > 0.0f) || (!RightCard && x < 0.0f))
+        Debug.Log("Rotate as goes : " + x);
+        if ((LeftCard && x > 0.5f) || (!LeftCard && x < 0.5f))
         {
             transform.rotation = Quaternion.Euler(0, 0, x * 360 / 2 - 90);
         }

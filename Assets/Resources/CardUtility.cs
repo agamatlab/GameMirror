@@ -4,12 +4,17 @@ using System.IO;
 
 public static class CardUtility
 {
-    private static CardCollection cardCollection = new CardCollection();
+    private static List<CardConfig> cards;
 
     // Ensure cards are loaded before accessing them
     private static void LoadCardsFromJSON()
     {
-        if (cardCollection != null) return; // If already loaded, do nothing
+        // If already loaded, do nothing
+        if (cards != null)
+        {
+            Debug.Log("Cards already loaded.");
+            return;
+        }
 
         string path = "Assets/Resources/Cards.json";
 
@@ -18,16 +23,38 @@ public static class CardUtility
         {
             // Read the JSON from the file
             string json = File.ReadAllText(path);
-            Debug.Log("Text recovered " + json);
+            Debug.Log("JSON loaded: " + json);
 
-            // Parse the JSON string into the CardCollection object
-            cardCollection. JsonUtility.FromJson<CardCollection>(json);
-            Debug.Log("File exist, trying to output it's size");
+            // Parse the JSON string into a List of CardConfig
+            try
+            {
+                var cardCollectionWrapper = JsonUtility.FromJson<CardCollectionWrapper>(json);
+                cards = cardCollectionWrapper.cards;
+                Debug.Log($"Loaded {cards.Count} cards.");
+            }
+            catch
+            {
+                Debug.LogError("Failed to parse JSON into card list.");
+                cards = new List<CardConfig>();
+            }
         }
         else
         {
             Debug.LogError("JSON file not found at path: " + path);
+            cards = new List<CardConfig>(); // Initialize an empty list if file doesn't exist
         }
+    }
+
+    // Save the cards to JSON
+    private static void SaveCardsToJSON()
+    {
+        string path = "Assets/Resources/Cards.json";
+        var cardCollectionWrapper = new CardCollectionWrapper { cards = cards };
+
+        string updatedJson = JsonUtility.ToJson(cardCollectionWrapper, true);
+
+        File.WriteAllText(path, updatedJson);
+        Debug.Log("Cards saved to JSON.");
     }
 
     // Static method to get a card by its index (order)
@@ -35,54 +62,70 @@ public static class CardUtility
     {
         LoadCardsFromJSON(); // Ensure cards are loaded before accessing
 
-        if (cardCollection != null && index >= 0 && index < cardCollection.cards.Count)
+        if (cards != null && index >= 0 && index < cards.Count)
         {
-            return cardCollection.cards[index];
+            return cards[index];
         }
-        else
-        {
-            Debug.LogError("Card index out of range or no cards loaded.");
-            return null;
-        }
+
+        Debug.LogError("Card index out of range or no cards loaded.");
+        return null;
     }
 
     // Static method to get the total number of cards
     public static int GetTotalCardCount()
     {
         LoadCardsFromJSON(); // Ensure cards are loaded before accessing
-
-        return cardCollection != null ? cardCollection.cards.Count : 0;
+        return cards?.Count ?? 0;
     }
+
     // Static method to get a random card
     public static CardConfig GetRandomCard()
     {
         LoadCardsFromJSON(); // Ensure cards are loaded before accessing
 
-        if (cardCollection != null && cardCollection.cards.Count > 0)
+        if (cards != null && cards.Count > 0)
         {
-            int randomIndex = Random.Range(0, cardCollection.cards.Count);
-            return cardCollection.cards[randomIndex];
+            int randomIndex = Random.Range(0, cards.Count);
+            return cards[randomIndex];
         }
-        else
-        {
-            Debug.LogError("No cards available.");
-            return null;
-        }
+
+        Debug.LogError("No cards available.");
+        return null;
     }
+
+    // Add a new card
     public static void AddCard(CardConfig newCard)
     {
         LoadCardsFromJSON(); // Ensure cards are loaded before modifying
 
-        // Add the new card to the list
-        cardCollection.cards.Add(newCard);
+        cards.Add(newCard);
+        Debug.Log("New card added: " + newCard.CardName);
 
-        // Convert the updated CardCollection back to JSON
-        string updatedJson = JsonUtility.ToJson(cardCollection, true);
+        SaveCardsToJSON(); // Save updated cards back to JSON
+    }
+    // Function to delete a card by name
+    public static void DeleteCardByName(string cardName)
+    {
+        LoadCardsFromJSON(); // Ensure cards are loaded before modifying
 
-        // Write the updated JSON back to the file
-        string path = "Assets/Resources/cards.json";  // Path to the JSON file
-        File.WriteAllText(path, updatedJson);
+        if (cards == null || cards.Count == 0)
+        {
+            Debug.LogError("No cards available to delete.");
+            return;
+        }
 
-        Debug.Log("New card added successfully and saved to the JSON file.");
+        // Find the card by name
+        CardConfig cardToRemove = cards.Find(card => card.CardName == cardName);
+
+        if (cardToRemove != null)
+        {
+            cards.Remove(cardToRemove);
+            Debug.Log($"Card '{cardName}' deleted successfully.");
+            SaveCardsToJSON(); // Save changes to JSON
+        }
+        else
+        {
+            Debug.LogError($"Card with name '{cardName}' not found.");
+        }
     }
 }
