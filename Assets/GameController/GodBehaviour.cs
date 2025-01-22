@@ -9,6 +9,7 @@ public class GodBehaviour : MonoBehaviour
 
     public GunProperties player1_gun;
     public GunProperties player2_gun;
+    public Transform PlayerData;
 
     void Start()
     {
