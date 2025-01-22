@@ -1,0 +1,40 @@
+{
+    "cards": [
+        {
+            "CardName": "Speedy",
+            "CardDiscription": "Increases shooting speed by 10",
+            "gunPropModifier": {
+                "bulletShootingSpeed": 10.0,
+                "bulletsPerShoot": 1,
+                "magazineSize": 1,
+                "bulletsInMagazine": 1,
+                "reloadTime": 1.0,
+                "bulletHoming": false,
+                "bulletRicochet": 1,
+                "destroyOnCollision": true,
+                "bulletSize": 1.0,
+                "bulletAccuracy": 1.0,
+                "bulletDamage": 1.0,
+                "bulletMass": 1.0
+            }
+        },
+        {
+            "CardName": "One shoot",
+            "CardDiscription": "Increase damage by 100, only one shot per round",
+            "gunPropModifier": {
+                "bulletShootingSpeed": 1.0,
+                "bulletsPerShoot": 1,
+                "magazineSize": 0,
+                "bulletsInMagazine": 1,
+                "reloadTime": 1.0,
+                "bulletHoming": false,
+                "bulletRicochet": 1,
+                "destroyOnCollision": true,
+                "bulletSize": 1.0,
+                "bulletAccuracy": 1.0,
+                "bulletDamage": 100.0,
+                "bulletMass": 1.0
+            }
+        }
+    ]
+}

@@ -30,6 +30,16 @@ namespace TarodevController
 
         private float _time;
 
+        /*public void Initialize(GunProperties gunProperties)
+        {
+            setUpGun(gunProperties);
+        }
+
+        private void setUpGun(GunProperties gunProperties)
+        {
+
+        }*/
+
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
