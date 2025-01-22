@@ -1,0 +1,27 @@
+Asa:
+
+1/22/2025
+
+1) Added scene transition from LoadScreen (Starting Scene) to Card Picking
+
+2) Fixed conflicts with your previous commit. 
+
+3) Added God functionality.
+
+
+
+TODO:
+
+HIGH PRIORITY:
+
+1) Transitions form Main Menu to GameScene.
+2) Check for card picking and transition to GameScene with update.
+3) Add Multiplayer functionality to shooting and gun
+
+LOW PRIORITY:
+
+1) Improve design of cards
+2) BUG: Cards Load faster when switching to CardPicking from StartingScene
+3) Start adding gun features:
+	3.1) Homing, Dynamic changes (Update func).
+ 
