@@ -1,0 +1,55 @@
+Asa:
+
+1/22/2025
+
+1) Added scene transition from LoadScreen (Starting Scene) to Card Picking
+
+2) Fixed conflicts with your previous commit. 
+
+3) Added God functionality.
+
+1/28/2025
+
+Plans :
+
+Work on H.1, H.2, H.3, L.3.1;
+
+
+1/29/2025
+
+1) Create lobby Done
+2) Synch guns rotation done ***(No flipping)***
+3) Add bullets as Server Quantities Done.
+
+TODO:
+
+1) Improve shooting, it sucks and different for different players
+2) Put cardpicking scene and make it serverlike
+3) start making level systems (add two, to switch).
+
+
+
+
+
+
+
+
+
+
+
+
+TODO:
+
+HIGH PRIORITY:
+
+1) Transitions form Main Menu to GameScene.
+2) Check for card picking and transition to GameScene with update.
+3) Add Multiplayer functionality to shooting and gun
+
+LOW PRIORITY:
+
+1) Improve design of cards
+2) BUG: Cards Load faster when switching to CardPicking from StartingScene
+3) Start adding gun features:
+	3.1) Homing, Dynamic changes (Update func).
+ 

@@ -279,7 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 717addbaf08c2344faab77677e893305, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RightCard: 0
+  LeftCard: 0
   InitialPosition: {x: 0, y: 0}
   RotationFactor: 0.4
 --- !u!70 &8953855902667310993

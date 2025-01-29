@@ -51,6 +51,21 @@ public struct GunProperties
         bulletDamage = 5;
         bulletMass = 1;
     }
+    public void addAnother(GunProperties gunProperties)
+    {
+        bulletShootingSpeed += gunProperties.bulletShootingSpeed;
+        bulletsPerShoot += gunProperties.bulletsPerShoot;
+        magazineSize += gunProperties.magazineSize;
+        bulletsInMagazine += gunProperties.bulletsInMagazine;
+        reloadTime += gunProperties.reloadTime;
+        bulletHoming = bulletHoming || gunProperties.bulletHoming;
+        bulletRicochet += gunProperties.bulletRicochet;
+        destroyOnCollision = destroyOnCollision || gunProperties.destroyOnCollision;
+        bulletSize += gunProperties.bulletSize;
+        bulletAccuracy += gunProperties.bulletAccuracy;
+        bulletDamage += gunProperties.bulletDamage;
+        bulletMass += gunProperties.bulletMass;
+    }
 
 }
 [System.Serializable]

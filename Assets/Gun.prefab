@@ -214,16 +214,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3375b9a1f578ef49b42d27d945fc8bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletShootingSpeed: 10
-  bulletsPerShoot: 1
-  magazineSize: 30
-  bulletsInMagazine: 30
-  reloadTime: 2
-  bulletHoming: 0
-  bulletRicochet: 0
-  destroyOnCollision: 0
-  bulletSize: 0.2
-  bulletAccuracy: 95
-  bulletDamage: 10
-  bulletMass: 1
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  gunProperties:
+    bulletShootingSpeed: 0
+    bulletsPerShoot: 0
+    magazineSize: 0
+    bulletsInMagazine: 0
+    reloadTime: 0
+    bulletHoming: 0
+    bulletRicochet: 0
+    destroyOnCollision: 0
+    bulletSize: 0
+    bulletAccuracy: 0
+    bulletDamage: 0
+    bulletMass: 0
   bulletPrefab: {fileID: 2699937219975086250, guid: 9455409d400b8874990dae4ab1838b96, type: 3}

@@ -1,12 +1,24 @@
 using UnityEngine;
-
-public class BulletBehaviour : MonoBehaviour
+using Mirror;
+public class BulletBehaviour : NetworkBehaviour
 {
+
+    public float destroyAfter = 10f;
     private Bullet bullet; // Instance of the Bullet class
     private Rigidbody2D rb; // Rigidbody reference
     private Camera mainCamera;
     private BulletParams defaultBulletParams;
     private Transform pivot;
+
+    [Server]
+    void DestroySelf()
+    {
+        NetworkServer.Destroy(gameObject);
+    }
+    public override void OnStartServer()
+    {
+        Invoke(nameof(DestroySelf), destroyAfter);
+    }
 
     public void Initialize(Bullet bullet)
     {
@@ -34,8 +46,10 @@ public class BulletBehaviour : MonoBehaviour
             pivot = transform.GetChild(0);
             pivot.gameObject.SetActive(false);
         }
+        transform.GetComponent<Rigidbody2D>().velocity = bullet.bulletParams.initVelocityVector * bullet.bulletParams.speed;
     }
 
+    [ServerCallback]
     void FixedUpdate()
     {
         Debug.Log("Bullets speed : " + rb.velocity.magnitude);
@@ -56,13 +70,14 @@ public class BulletBehaviour : MonoBehaviour
         // Check if outside camera bounds
         if (!IsVisibleFromCamera())
         {
-            Destroy(gameObject);
+            DestroySelf();
         }
 
         // Update bullet properties if needed
         bullet.UpdateBullet();
     }
 
+    [ServerCallback]
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("OnCollisionEnter");
@@ -70,13 +85,12 @@ public class BulletBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             DamagePlayer(collision.gameObject);
-            Destroy(gameObject);
+            DestroySelf();
             return;
         }
 
         if (collision.gameObject.layer == 6 /*Level layer*/)
         {
-            Debug.Log("Touching grass");
 
             if (bullet.bulletParams.ricochetCount > 0)
             {
@@ -85,7 +99,7 @@ public class BulletBehaviour : MonoBehaviour
             }
             else if (bullet.bulletParams.destroyOnCollision)
             {
-                Destroy(gameObject);
+                DestroySelf();
             }
         }
     }
