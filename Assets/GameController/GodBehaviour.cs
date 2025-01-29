@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -39,6 +38,28 @@ public class GodBehaviour : MonoBehaviour
         StartCardPicking();
     }
 
+    private void Update()
+    {
+        if (CardPickingSceneActive)
+        {
+            int pickedCard = cardWasPicked();
+            if (pickedCard != 0)
+            {
+                applyCardToPlayer(pickedCard);
+                CardPickingSceneActive = false;
+
+                /*For testing purposes only*/
+                StartFightingScene();
+                /*For testing purposes only*/
+            }
+        }
+
+        if (FightSceneActive)
+        {
+            // Check if one of the players dead
+        }
+    }
+
     void StartCardPicking()
     {
         CardPickingSceneActive = true;
@@ -59,12 +80,38 @@ public class GodBehaviour : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
+    void StartFightingScene()
     {
-        if (CardPickingSceneActive)
+        FightSceneActive = true;
+        SceneManager.LoadScene(sceneName: "FightScene");
+    }
+
+    int cardWasPicked()
+    {
+        // Checks if the player has picked a card
+        // Returns 0 if no card was picked, 1 if first card, 2 is secon
+        if (!transform.GetChild(0).GetChild(0).gameObject.activeSelf)
         {
-            //Debug.Log("CardPickingSceneActive");
+            return 1;
+        }
+        else if (!transform.GetChild(0).GetChild(1).gameObject.activeSelf)
+        {
+            return 2;
+        }
+        else return 0;
+    }
+
+    void applyCardToPlayer(int pickedCard)
+    {
+        GunProperties cardProperties = transform.GetChild(0).GetChild(pickedCard - 1).GetComponent<CardBehaviour>().GetGunProperties();
+        // Apply the picked card to the player
+        if (FirstPlayerPicking)
+        {
+            GunPropertiesP1.addAnother(cardProperties);
+        }
+        else
+        {
+            GunPropertiesP2.addAnother(cardProperties);
         }
     }
 }

@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 4347773935780166570}
   - component: {fileID: 65067649583892630}
   - component: {fileID: 3756738808707878543}
+  - component: {fileID: 4706978914153764925}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -329,6 +330,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0915f1c1aaba2f4aad69be625e716ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  destroyAfter: 10
+--- !u!114 &4706978914153764925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2699937219975086250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 2226637699906835741}
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 1
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  timelineOffset: 1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChangeCorrectionMultiplier: 2
+  rotationSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01
 --- !u!1 &2962013948214128979
 GameObject:
   m_ObjectHideFlags: 0

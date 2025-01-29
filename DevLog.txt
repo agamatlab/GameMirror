@@ -8,6 +8,34 @@ Asa:
 
 3) Added God functionality.
 
+1/28/2025
+
+Plans :
+
+Work on H.1, H.2, H.3, L.3.1;
+
+
+1/29/2025
+
+1) Create lobby Done
+2) Synch guns rotation done ***(No flipping)***
+3) Add bullets as Server Quantities Done.
+
+TODO:
+
+1) Improve shooting, it sucks and different for different players
+2) Put cardpicking scene and make it serverlike
+3) start making level systems (add two, to switch).
+
+
+
+
+
+
+
+
+
+
 
 
 TODO:

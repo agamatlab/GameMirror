@@ -1,6 +1,7 @@
 using UnityEngine;
+using Mirror;
 
-public class AlignToCursor : MonoBehaviour
+public class AlignToCursor : NetworkBehaviour
 {
     public Camera mainCamera; // Reference to the main camera
     public Transform player;  // Reference to the player object for determining facing direction
@@ -19,9 +20,14 @@ public class AlignToCursor : MonoBehaviour
         initialScale = transform.localScale;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        AlignWithCursor();
+        if (!Application.isFocused) return;
+        
+        if (isLocalPlayer)
+        {
+            AlignWithCursor();
+        }
     }
 
     void AlignWithCursor()

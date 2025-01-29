@@ -1,7 +1,10 @@
+using Mirror;
+using Mirror.Examples.Tanks;
+using System.Globalization;
 using UnityEngine;
 
 
-public class GunBehaviour : MonoBehaviour
+public class GunBehaviour : NetworkBehaviour
 {
     // Gun properties struct
     public GunProperties gunProperties;
@@ -17,6 +20,8 @@ public class GunBehaviour : MonoBehaviour
 
     private void Start()
     {
+        gunProperties.setDefault();
+
         firePoint = transform.GetChild(0);
         firePoint = transform.GetChild(0); // Assuming the fire point is the first child
     }
@@ -36,6 +41,7 @@ public class GunBehaviour : MonoBehaviour
         }
     }
 
+    [Command]
     public void Shoot()
     {
         if (gunProperties.bulletsInMagazine <= 0)
@@ -51,6 +57,7 @@ public class GunBehaviour : MonoBehaviour
         {
             // Instantiate the bullet GameObject
             GameObject bulletObject = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            NetworkServer.Spawn(bulletObject);
 
             // Get the BulletBehaviour component
             BulletBehaviour bulletBehaviour = bulletObject.GetComponent<BulletBehaviour>();
@@ -77,12 +84,12 @@ public class GunBehaviour : MonoBehaviour
                 bulletBehaviour.Initialize(bulletInstance);
 
                 // Set the bullet's Rigidbody velocity
-                Rigidbody2D rb = bulletObject.GetComponent<Rigidbody2D>();
+                /*Rigidbody2D rb = bulletObject.GetComponent<Rigidbody2D>();
                 if (rb != null)
                 {
                     rb.velocity = bulletParams.initVelocityVector * bulletParams.speed;
                     Debug.Log("Shooting with direction: " + rb.velocity);
-                }
+                }*/
             }
             else
             {

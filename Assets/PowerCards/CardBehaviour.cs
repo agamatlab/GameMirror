@@ -25,6 +25,12 @@ public class CardBehaviour : MonoBehaviour
         //card = new CardClass(cardName, cardDescription, gunModifiers);
     }
 
+    public GunProperties GetGunProperties()
+    {
+        GunProperties gunProperties = card.gunPropModifier;
+        return gunProperties;
+    }
+
     void Start()
     {
         Debug.Log("Active");
@@ -91,7 +97,7 @@ public class CardBehaviour : MonoBehaviour
         if ((LeftCard && x > 0.7f) || (!LeftCard && x < 0.2f))
         {
             Debug.Log("Card was picked");
-            //Destroy(gameObject);
+            gameObject.SetActive(false);
         };
     }
     void RotateAsGoes(Vector2 cur_position)
