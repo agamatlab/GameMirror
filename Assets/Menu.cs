@@ -14,10 +14,25 @@ public class Menu : MonoBehaviour
 
     [SerializeField]
     Canvas Canvas;
+
+    [SerializeField]
+    GameObject background, cloud1, cloud2;
     // Start is called before t he first frame update
     void Start()
     {
+        // Initial Animation
+        Vector2 bgPos = background.transform.position;
+        Vector2 cloud1Pos = cloud1.transform.position;
+        Vector2 cloud2Pos = cloud2.transform.position;
 
+        background.transform.position = new Vector2(bgPos.x, bgPos.y-100);
+        cloud1.transform.position = new Vector2(cloud1Pos.x-1000, cloud1Pos.y);
+        cloud2.transform.position = new Vector2(cloud2Pos.x+1000, cloud2Pos.y);
+        LeanTween.move(background, bgPos, 2).setEaseOutSine();
+        LeanTween.move(cloud1, cloud1Pos, 2).setEaseOutSine();
+        LeanTween.move(cloud2, cloud2Pos, 2).setEaseOutSine();
+
+        // Play Button + Transition
         Vector2 startPos = new Vector2(0, 0);
         StartButton.onClick.AddListener(() =>
         {
@@ -35,9 +50,12 @@ public class Menu : MonoBehaviour
                 }
 
             }
+            
+            StartCoroutine(CallingScene());
         });
 
-        StartCoroutine(CallingScene());
+
+
     }
 
     IEnumerator CallingScene()
