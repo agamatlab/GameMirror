@@ -38,7 +38,7 @@ public struct GunProperties
     public void setDefault()
     {
 
-        bulletShootingSpeed = 5;
+        bulletShootingSpeed = 40;
         bulletsPerShoot = 1;
         magazineSize = 3;
         bulletsInMagazine = 3;

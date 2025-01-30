@@ -17,6 +17,7 @@ public class GunBehaviour : NetworkBehaviour
     private Transform firePoint;
     private Bullet bullet;
     public GameObject bulletPrefab;
+    public Rigidbody2D PlayerRB;
 
     private void Start()
     {
@@ -55,11 +56,9 @@ public class GunBehaviour : NetworkBehaviour
         // Simulate shooting multiple bullets per shot
         for (int i = 0; i < gunProperties.bulletsPerShoot; i++)
         {
-            // Instantiate the bullet GameObject
-            GameObject bulletObject = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-            NetworkServer.Spawn(bulletObject);
-
             // Get the BulletBehaviour component
+
+            GameObject bulletObject = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
             BulletBehaviour bulletBehaviour = bulletObject.GetComponent<BulletBehaviour>();
 
             if (bulletBehaviour != null)
@@ -83,13 +82,16 @@ public class GunBehaviour : NetworkBehaviour
                 Bullet bulletInstance = new Bullet(bulletParams);
                 bulletBehaviour.Initialize(bulletInstance);
 
+                // Instantiate the bullet GameObject
+                NetworkServer.Spawn(bulletObject);
+
                 // Set the bullet's Rigidbody velocity
-                /*Rigidbody2D rb = bulletObject.GetComponent<Rigidbody2D>();
+                Rigidbody2D rb = bulletObject.GetComponent<Rigidbody2D>();
                 if (rb != null)
                 {
-                    rb.velocity = bulletParams.initVelocityVector * bulletParams.speed;
-                    Debug.Log("Shooting with direction: " + rb.velocity);
-                }*/
+                    rb.AddForce(bulletParams.initVelocityVector * bulletParams.speed + PlayerRB.velocity * 10);
+                    Debug.Log("Shooting with direction: " + rb.velocity + "Thanks to player : " + PlayerRB.velocity);
+                }
             }
             else
             {

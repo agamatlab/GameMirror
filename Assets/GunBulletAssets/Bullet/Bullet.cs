@@ -22,8 +22,16 @@ public class Bullet : MonoBehaviour
     }
 
     // Function to update bullet properties (e.g., size, speed)
-    public void UpdateBullet()
+    public void UpdateBullet(Rigidbody2D rb)
     {
+        if (rb.velocity.y < 0)
+        {
+            rb.gravityScale = 9;
+        }
+        else
+        {
+            rb.gravityScale = 7;
+        }
         // Placeholder for updating bullet properties dynamically (if needed)
     }
 }

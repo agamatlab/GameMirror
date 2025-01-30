@@ -74,7 +74,7 @@ public class BulletBehaviour : NetworkBehaviour
         }
 
         // Update bullet properties if needed
-        bullet.UpdateBullet();
+        bullet.UpdateBullet(rb);
     }
 
     [ServerCallback]

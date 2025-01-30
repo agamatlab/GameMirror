@@ -24905,7 +24905,7 @@ MonoBehaviour:
   target: {fileID: 7777095012893177733}
   syncPosition: 1
   syncRotation: 1
-  syncScale: 0
+  syncScale: 1
   onlySyncOnChange: 1
   compressRotation: 1
   interpolatePosition: 1
@@ -24938,7 +24938,7 @@ MonoBehaviour:
   target: {fileID: 2558488517117265734}
   syncPosition: 1
   syncRotation: 1
-  syncScale: 0
+  syncScale: 1
   onlySyncOnChange: 1
   compressRotation: 1
   interpolatePosition: 1
@@ -24971,7 +24971,7 @@ MonoBehaviour:
   target: {fileID: 1222388812478249770}
   syncPosition: 1
   syncRotation: 1
-  syncScale: 0
+  syncScale: 1
   onlySyncOnChange: 1
   compressRotation: 1
   interpolatePosition: 1
@@ -34900,6 +34900,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2558488517117265734}
     m_Modifications:
+    - target: {fileID: 836859526370396567, guid: 8c2618e117beb61438cb5fa8de710413, type: 3}
+      propertyPath: PlayerRB
+      value: 
+      objectReference: {fileID: 5655613102742505971}
     - target: {fileID: 836859526370396567, guid: 8c2618e117beb61438cb5fa8de710413, type: 3}
       propertyPath: reloadTime
       value: 2
