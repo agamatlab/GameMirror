@@ -29,7 +29,7 @@ public class AlignToCursor : NetworkBehaviour
         initialScale = transform.localScale;
 
         print($"Initial Parent Position: transform.parent.localPosition --> {initParentPosition.ToString()}");
-        print($"radius --> {radius}");
+        print($"radius {transform.localPosition.x} - {transform.parent.localPosition.x} --> {radius}");
     }
 
     void FixedUpdate()
@@ -53,10 +53,11 @@ public class AlignToCursor : NetworkBehaviour
         Vector3 direction = cursorWorldPosition - playerCenter.position;
 
         // Calculate the angle and apply it to the object
-        float angle = Mathf.Atan2(direction.y, direction.x);
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         print(angle);
 
-        transform.position = new Vector2(Mathf.Sin(angle) * radius - initParentPosition.x, Mathf.Cos(angle) * radius);
+        print($"{Mathf.Cos(angle * Mathf.Deg2Rad)} * {radius} + {initParentPosition.x}, {Mathf.Sin(angle * Mathf.Deg2Rad)} * {radius}");
+        transform.localPosition = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad) * radius + initParentPosition.x, Mathf.Sin(angle * Mathf.Deg2Rad) * radius);
 
 
         // Check if the cursor is to the left or right of the player
